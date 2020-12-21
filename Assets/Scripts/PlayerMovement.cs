@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isJumpingOne = false;
     public bool isJumpingTwo = false;
+    private bool canDoubleJump;
 
     private bool isAttacking1;
     private bool isAttacking2;
@@ -89,6 +90,14 @@ public class PlayerMovement : MonoBehaviour
             isJumpingOne = false;
         }
 
+        if(isJumpingTwo == true)
+        {
+            rb.velocity = Vector2.up * jumpTwo;
+            animator.SetBool("IsJumping", true);
+            isJumpingTwo = false;
+            canDoubleJump = false;
+        }
+
         if(isAttacking1 == true)
         {
             isAttacking1 = false;
@@ -98,9 +107,24 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+        if (IsGrounded())
         {
-            isJumpingOne = true;
+            canDoubleJump = true;
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            if (IsGrounded())
+            {
+                isJumpingOne = true;
+            }
+            else
+            {
+                if (canDoubleJump)
+                {
+                    isJumpingTwo = true;
+                }
+            }
         }
 
         if (Input.GetButtonDown("Fire2"))

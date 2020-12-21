@@ -295,7 +295,7 @@ MonoBehaviour:
   walkSpeed: 300
   runSpeed: 300
   jumpOne: 10
-  jumpTwo: 0
+  jumpTwo: 9
   isJumpingOne: 0
   isJumpingTwo: 0
 --- !u!58 &300839335
