@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -9,8 +11,11 @@ public class PlayerMovement : MonoBehaviour
     private BoxCollider2D bc;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
+    public GameObject player;
 
     [SerializeField] private LayerMask stageLM;
+
+    private Vector3 spawn;
 
     public float walkSpeed;
     public float runSpeed;
@@ -23,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isAttacking1;
     private bool isAttacking2;
+
+    private bool deadFlag = false;
 
     private bool IsGrounded()
     {
@@ -143,6 +150,14 @@ public class PlayerMovement : MonoBehaviour
         }else if(_velocity < -0.1f)
         {
             spriteRenderer.flipX = true;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Respawn")
+        {
+            transform.position = new Vector3(0f, 3.5f, 0f);
         }
     }
 
