@@ -29,8 +29,6 @@ public class PlayerMovement : MonoBehaviour
     private bool isAttacking1;
     private bool isAttacking2;
 
-    private bool deadFlag = false;
-
     private bool IsGrounded()
     {
         RaycastHit2D rh = Physics2D.BoxCast(bc.bounds.center, bc.bounds.size, 0f, Vector2.down, .1f, stageLM);
@@ -78,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool("IsJumping", true);
             animator.SetBool("IsAttacking1", isAttacking1);
+            animator.SetBool("IsAttacking2", isAttacking2);
 
         }
 
@@ -108,6 +107,11 @@ public class PlayerMovement : MonoBehaviour
         if(isAttacking1 == true)
         {
             isAttacking1 = false;
+        }        
+        
+        if(isAttacking2 == true)
+        {
+            isAttacking2 = false;
         }
     }
 
@@ -136,11 +140,27 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Fire2"))
         {
-            isAttacking1 = true;
-            animator.SetBool("IsAttacking1", isAttacking1);
+            Attack();
         }
 
     }
+
+
+    void Attack()
+    {
+        if (IsGrounded())
+        {
+            isAttacking2 = true;
+            animator.SetBool("IsAttacking2", isAttacking2);
+        }
+
+        else if (IsGrounded() == false)
+        {
+            isAttacking1 = true;
+            animator.SetBool("IsAttacking1", isAttacking1);
+        }
+    }
+
 
     void Flip(float _velocity)
     {
